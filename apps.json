@@ -1,0 +1,19 @@
+
+{
+  "/help":{
+    "file":"help",
+    "help":"get the list of available commands"
+  },
+  "/weather":{
+    "file":"weather",
+    "help":"city,  get an updated summary of the weather for the specified city (for composed city names, like New York, write it without spaces: newyork)"
+  },
+  "/me":{
+    "file":"me",
+    "help":"get a nice message related to chat user"
+  },
+  "/test":{
+    "file":"test",
+    "help":"a simple command for testing purposes"
+  }
+}

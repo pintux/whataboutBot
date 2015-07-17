@@ -1,0 +1,21 @@
+{
+  "name": "whataboutbot",
+  "version": "0.1.0",
+  "description": "A configurable, minimal Telegram Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "keywords": [
+    "telegram",
+    "bot"
+  ],
+  "author": "Antonio Pintus <pintus@gmail.com> (http://www.pintux.it)",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^1.3.0",
+    "debug": "^2.2.0",
+    "request": "^2.58.0"
+  }
+}

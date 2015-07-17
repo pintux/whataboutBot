@@ -1,0 +1,5 @@
+{
+    "APIBASEURL":"https://api.telegram.org/bot",
+    "getUpdates":"getUpdates",
+    "sendMessage":"sendMessage"
+}

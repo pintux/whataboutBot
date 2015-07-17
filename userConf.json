@@ -1,0 +1,6 @@
+{
+    "token": "<YOUR_API_TOKEN>",
+    "updatesInterval": "1500",
+    "username": "<YOUR_USERNAME>",
+    "botName": "<YOUR_BOT_NAME>"
+}
