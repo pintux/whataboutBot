@@ -72,7 +72,7 @@ Extending the Bot === write and add your Apps
 ```javscript
 {"text": "A_TEXT_MESSAGE"}
 ```
-(This version supports only text messages. More supported types other than text (like images) are coming...)
+**NB**: This version supports only text messages. More supported types, other than text, (like images) are coming soon...
 
 ```javascript
 function run(param, chat, cb){
