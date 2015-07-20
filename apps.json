@@ -6,7 +6,7 @@
   },
   "/weather":{
     "file":"weather",
-    "help":"city,  get an updated summary of the weather for the specified city (for composed city names, like New York, write it without spaces: newyork)"
+    "help":"city,  get an updated summary of the weather in the specified city (for composed city names, like New York, write it without spaces: newyork)"
   },
   "/me":{
     "file":"me",
