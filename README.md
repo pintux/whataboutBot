@@ -6,7 +6,7 @@ About
 -----
 
 A simple Telegram based Bot.
-Intended to be configurable and extended through little code snippets
+Intended to be configurable and extendable for your aims writing little code snippets
 named "apps".
 
 From Telegram Bots page: *"Bots are special Telegram accounts designed to handle messages automatically. Users can interact with bots by sending them command messages in private or group chats"*
@@ -56,6 +56,7 @@ Included Basic Apps
 
 `/weather city`: get an updated summary of the weather for the specified `city` (for composed city names, like New York, write it without spaces: `newyork`)
 
+More to come...
 
 Extending the Bot === write and add your Apps
 ---------------------------------------------
