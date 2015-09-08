@@ -71,10 +71,15 @@ Extending the Bot === write and add your Apps
 `chat`, is always the JSON chat element coming from Telegram API, it will passed automatically and it can be useful to get some info about the chat, like the telegram user name;
 
 `cb`, the callback function to be called with the results of the run (or an error). In case of success, you must call the callback with a JSON as follows:
-```javscript
+```javascript
 {"text": "A_TEXT_MESSAGE"}
 ```
-**NB**: This version supports only text messages. More supported types, other than text, (like images) are coming soon...
+or
+```javascript
+{"photo": "AN_IMAGE_HTTP_URL", "caption":"my image caption"}
+```
+
+**NB**: This version supports only text and photo messages. More supported types are coming soon...
 
 ```javascript
 function run(param, chat, cb){
