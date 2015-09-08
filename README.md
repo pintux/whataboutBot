@@ -56,7 +56,7 @@ Included Basic Apps
 
 `/weather city`: get an updated summary of the weather for the specified `city` (for composed city names, like New York, write it without spaces: `newyork`)
 
-`/http code`: <NERD-ZONE> get a nice pic about the specified HTTP Status Code ;) </NERD-ZONE>
+`/http code`: NERD-ZONE,  get a nice picture about the specified HTTP Status Code ;)
 
 More to come...
 
