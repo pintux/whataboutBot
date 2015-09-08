@@ -16,4 +16,9 @@
     "file":"test",
     "help":"a simple command for testing purposes"
   }
+  ,
+  "/http":{
+    "file":"errorcat",
+    "help":"errorCode, receive an image representing the specified HTTP error code ;)"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "whataboutbot",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A configurable, minimal Telegram Bot",
   "main": "index.js",
   "scripts": {
@@ -14,12 +14,13 @@
   "author": "Antonio Pintus <pintus@gmail.com> (http://www.pintux.it)",
   "license": "MIT",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/pintux/whataboutBot.git"
+    "type": "git",
+    "url": "https://github.com/pintux/whataboutBot.git"
   },
   "dependencies": {
     "async": "^1.3.0",
     "debug": "^2.2.0",
+    "form-data": "^0.2.0",
     "request": "^2.58.0"
   },
   "devDependencies": {
