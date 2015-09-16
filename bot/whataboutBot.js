@@ -59,7 +59,7 @@ Bot.prototype.sendPhotoMessage = function(chatId, photoURL, caption, cb){
     var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.sendPhoto;
     debug('Sending photo to: ', reqURL);
     var formData = new FormData();
-    formData.append('photo', http.get(photoURL+'.jpg'));
+    formData.append('photo', http.get(photoURL));
     formData.append('chat_id', chatId);
     if(caption !== '') {
       formData.append('caption', caption);
