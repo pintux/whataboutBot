@@ -54,7 +54,7 @@ Included Basic Apps
 
 `/me`: get a simple message related to chat user
 
-`/weather city`: get an updated summary of the weather for the specified `city` (for composed city names, like New York, write it without spaces: `newyork`); **NB: OpenWeatherMap service now requires an APIKEY, get one [HERE](http://openweathermap.org/appid#get) AND add the key in the apps/weather.js file.
+`/weather city`: get an updated summary of the weather for the specified `city` (for composed city names, like New York, write it without spaces: `newyork`); **NB**: OpenWeatherMap service now requires an APIKEY, get one [HERE](http://openweathermap.org/appid#get) AND add the key in the apps/weather.js file.
 
 `/http code`: NERD-ZONE,  get a nice picture about the specified HTTP Status Code ;)
 
