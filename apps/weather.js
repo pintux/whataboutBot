@@ -2,7 +2,7 @@ var http = require('request');
 var debug = require('debug')('apps:weather');
 
 //IMPORTANT, OpenWeathermap API KEY
-var apiKey = '76433fafdcca7499efeaa78d09f1bcc6';
+var apiKey = 'YOURAPIKEY';
 
 
 function run(city, chat, cb){
