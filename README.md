@@ -54,9 +54,11 @@ Included Basic Apps
 
 `/me`: get a simple message related to chat user
 
-`/weather city`: get an updated summary of the weather for the specified `city` (for composed city names, like New York, write it without spaces: `newyork`); **NB**: OpenWeatherMap service now requires an APIKEY, get one [HERE](http://openweathermap.org/appid#get) AND add the key in the apps/weather.js file.
+`/weather city`: get an updated summary of the weather for the specified `city` (for composed city names, like New York, write it without spaces: `newyork`); **NB**: OpenWeatherMap service now requires an APIKEY, get one [HERE](http://openweathermap.org/appid#get) AND add the key in the `apps/weather.js` file.
 
 `/http code`: NERD-ZONE,  get a nice picture about the specified HTTP Status Code ;)
+
+`/qr string`: generates a QR code for the provided string. A string could be a word, a number, a code, a URL without spaces.
 
 More to come...
 
@@ -79,12 +81,12 @@ or
 {"photo": "AN_IMAGE_HTTP_URL", "caption":"my image caption"}
 ```
 
-**NB**: This version supports only text and photo messages. More supported types are coming soon...
+**NB**: This version supports only text and photo messages (from URL or file stream). More supported types are coming soon...
 
 ```javascript
 function run(param, chat, cb){
     var message = "This is a TEST, " + chat.first_name + " and... yes I'm working! ;)";
-    cb(null, {'text':message}); //supported types is: text
+    cb(null, {'text':message}); //supported types are: text, photo, photoStream
 }
 
 //mandatory, don't forget it ;)

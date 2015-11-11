@@ -15,10 +15,14 @@
   "/test":{
     "file":"test",
     "help":"a simple command for testing purposes"
-  }
-  ,
+  },
   "/http":{
     "file":"errorcat",
     "help":"errorCode, receive an image representing the specified HTTP error code ;)"
+  },
+  "/qr":{
+    "file":"qr",
+    "help":"data/URL, receive an QR-Code for specified data or URL"
   }
+
 }

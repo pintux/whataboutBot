@@ -9,7 +9,6 @@ var apps = require('./apps.json');
 var bot = new Bot(userConf);
 
 function update(){
-    debug("---------------------");
     bot.getUpdates(function(err, updates){
       async.each(updates, function(update, cb){
         bot.processMessage(update, cb);

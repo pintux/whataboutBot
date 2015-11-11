@@ -2,6 +2,7 @@ var http = require('request');
 var FormData = require('form-data');
 var debug = require('debug')('bot');
 var util = require('util');
+var fs = require('fs');
 
 
 var generalConf = require('../generalConf.json');
@@ -20,7 +21,7 @@ function Bot(config){
 Bot.prototype.getUpdates = function(cb){
 
   var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.getUpdates + '?offset='+this.offset;
-  debug('getUpdates -> ',reqURL);
+  //debug('getUpdates -> ',reqURL);
   var self = this;
   http.get(reqURL, function(err, response, body){
     debug('Response: ' + util.inspect(body));
@@ -57,7 +58,7 @@ Bot.prototype.sendTextMessage = function(chatId, message, cb){
 //Sends a PHOTO content from URL to a chat
 Bot.prototype.sendPhotoMessage = function(chatId, photoURL, caption, cb){
     var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.sendPhoto;
-    debug('Sending photo to: ', reqURL);
+    //debug('Sending photo to: ', reqURL);
     var formData = new FormData();
     formData.append('photo', http.get(photoURL));
     formData.append('chat_id', chatId);
@@ -66,6 +67,7 @@ Bot.prototype.sendPhotoMessage = function(chatId, photoURL, caption, cb){
     }
 
     formData.submit(reqURL, function(err, response) {
+      //debug(err, response);
       if(!err && response.statusCode === 200) {
         cb(null, response);
       } else {
@@ -73,6 +75,34 @@ Bot.prototype.sendPhotoMessage = function(chatId, photoURL, caption, cb){
       }
     });
 
+};
+
+//Sends a PHOTO content from a Stream to a chat
+Bot.prototype.sendPhotoStreamMessage = function(chatId, stream, caption, cb){
+    var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.sendPhoto;
+    debug('Sending streamed photo to: ', reqURL);
+    var formData = new FormData();
+    var filename = process.env.PWD + '/' +stream
+    debug('Filename:', filename);
+    formData.append('photo', fs.createReadStream(filename));
+    formData.append('chat_id', chatId);
+    if(caption !== '') {
+      formData.append('caption', caption);
+    }
+    fs.stat(filename, function(err, stats){
+      //sets content-length header, without it form-data doesn't work
+      formData.getHeaders({"Content-Length": stats.size});
+      formData.submit(reqURL, function(err, response) {
+        //in any case delete file
+        fs.unlink(filename, function(error){
+          if(!err && response.statusCode === 200) {
+            cb(null, response);
+          } else {
+            cb(err, null);
+          }
+        });
+      });
+    });
 };
 
 //processes the message using the installed apps
@@ -100,10 +130,11 @@ Bot.prototype.processMessage = function(update, cb){
             if (app in apps){
                 //call app's run()
                 debug('Calling APP: ', app);
+                debug('file to import: ', '../apps/'+apps[app].file);
                 require('../apps/'+apps[app].file)(param, update.message.chat, function(err, result){
                   if(!err){
                     debug('Sending a message of type: ', result);
-                    //images from URL
+                  
                     //text
                     if ('text' in result){
                       self.sendTextMessage(update.message.chat.id, result.text, function(err, message){
@@ -119,7 +150,18 @@ Bot.prototype.processMessage = function(update, cb){
                       });
 
                     }
+                    else if ('photoStream' in result) {
+                      debug('Sending a photo stream');
+                      self.sendPhotoStreamMessage(update.message.chat.id, result.photoStream, result.caption, function(err, message){
+                        if(err) debug('Error:', err);
+                        return cb();
+                      });
+
+                    }
                     //TODO: add documents and files support, ...
+                  }
+                  else{
+                    debug('ERROR ', err);
                   }
                 });
 
