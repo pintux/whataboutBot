@@ -11,11 +11,15 @@ named "apps".
 
 From Telegram Bots page: *"Bots are special Telegram accounts designed to handle messages automatically. Users can interact with bots by sending them command messages in private or group chats"*
 
+Version
+-------
+0.4.0
+
 
 Requirements
 ------------
 
-- [node.js](http://nodejs.org), tested with node.js v. 4.x.x and 5.0.0
+- [node.js](http://nodejs.org), tested with node.js v. 4.x.x and 5.x.x
 - an existing Telegram Bot, follow [Telegram Bots](https://core.telegram.org/bots) documentation to create yours. Bot name and Telegram API Token are mandatory
 
 
@@ -41,7 +45,7 @@ Directories Structure & Main Files
 
 `generalConf.json`: Telegram BOT API general configuration (in most cases is intended to be left unedited)
 
-`userConf.json`: Specific Telegram BOT configuration. Fill in your Telegram API Token as well as the bot name and username. `updatesInterval` is the polling interval to check for updates from Telegram Bot API
+`userConf.json`: Specific Telegram BOT configuration. Fill in your Telegram API Token as well as the bot name and username. `updatesInterval` is the polling interval to check for updates from Telegram Bot API; `allowedUsers` is an array of Telegram username strings allowed to use this Bot. Enter `false` to let everybody use your Bot. 
 
 `index.js`: the main file to run
 
@@ -79,6 +83,10 @@ Extending the Bot === write and add your Apps
 or
 ```javascript
 {"photo": "AN_IMAGE_HTTP_URL", "caption":"my image caption"}
+```
+or
+```javascript
+{"photoStream": "AN_IMAGE_FILE_PATH", "caption":"my image caption"}
 ```
 
 **NB**: This version supports only text and photo messages (from URL or file stream). More supported types are coming soon...
@@ -121,7 +129,7 @@ Contributors
 
 License - "MIT License"
 -----------------------
-Copyright (c) 2015 Antonio Pintus, http://www.pintux.it
+Copyright (c) 2015-2016 Antonio Pintus, http://www.pintux.it
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,6 +1,6 @@
 {
   "name": "whataboutbot",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A configurable, minimal Telegram Bot",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,12 @@
     "uuid": "^2.0.1"
   },
   "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-bump": "^1.0.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0",
     "unit.js": "^2.0.0"
   }
 }

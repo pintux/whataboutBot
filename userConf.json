@@ -1,6 +1,7 @@
 {
-    "token": "<YOUR_API_TOKEN>",
-    "updatesInterval": "1500",
-    "username": "<YOUR_USERNAME>",
-    "botName": "<YOUR_BOT_NAME>"
+    "token": "TELEGRAM BOT API TOKEN", 
+    "updatesInterval": "1500", 
+    "username": "whataboutBot", 
+    "botName": "whataboutBot", 
+    "allowedUsers": false 
 }

@@ -15,6 +15,7 @@ function Bot(config){
     this.username = config.username;
     this.name = config.botName;
     this.token = config.token;
+    this.allowedUsers = config.allowedUsers || false;
 }
 
 // Polling!
@@ -27,12 +28,23 @@ Bot.prototype.getUpdates = function(cb){
     debug('Response: ' + util.inspect(body));
     if (!err && response.statusCode === 200) {
         var updates = JSON.parse(body);
+        
         try {
           if(updates.ok && updates.result.length > 0){
             self.offset = updates.result[updates.result.length-1].update_id+1;
           }
-          //returns a JSON
-          return cb(null, updates.result);
+          
+          //if allowedUsers == false, then ALL users can chat with the bot
+          if(!self.allowedUsers){
+            return cb(null, updates.result);
+          }
+          else{
+            //filter messages by allowedUsers
+            return cb(null, updates.result.filter(function(value){	
+	                          return (self.allowedUsers.indexOf(value.message.from.username) !== -1);
+                        }));
+          }
+          
         } catch (e) {
           debug(e);
           return cb(e, null);
@@ -82,7 +94,7 @@ Bot.prototype.sendPhotoStreamMessage = function(chatId, stream, caption, cb){
     var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.sendPhoto;
     debug('Sending streamed photo to: ', reqURL);
     var formData = new FormData();
-    var filename = process.env.PWD + '/' +stream
+    var filename = process.env.PWD + '/' +stream;
     debug('Filename:', filename);
     formData.append('photo', fs.createReadStream(filename));
     formData.append('chat_id', chatId);

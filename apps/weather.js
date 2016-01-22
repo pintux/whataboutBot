@@ -2,12 +2,12 @@ var http = require('request');
 var debug = require('debug')('apps:weather');
 
 //IMPORTANT, OpenWeathermap API KEY
-var apiKey = 'YOURAPIKEY';
+var apiKey = 'PUT HERE YOUR API KEY';
 
 
-function run(city, chat, cb){
+function run(aCity, chat, cb){
 
-  var city = city || 'Cagliari';
+  var city = aCity || 'Cagliari';
   var reqURL = 'http://api.openweathermap.org/data/2.5/weather?units=metric&APPID='+ apiKey +'&q='+city;
   http.get(reqURL, function(err, response, body){
     debug('body: ',body);
