@@ -13,23 +13,50 @@ From Telegram Bots page: *"Bots are special Telegram accounts designed to handle
 
 Version
 -------
-0.4.0
+0.5.0
 
 
 Requirements
 ------------
 
-- [node.js](http://nodejs.org), tested with node.js v. 4.x.x and 5.x.x
-- an existing Telegram Bot, follow [Telegram Bots](https://core.telegram.org/bots) documentation to create yours. Bot name and Telegram API Token are mandatory
+- [node.js](http://nodejs.org), **tested with node.js v. 5.x.x**
+- an existing Telegram Bot, follow [Telegram Bots](https://core.telegram.org/bots) documentation to create yours. Bot name and **Telegram API Token** are mandatory.
 
 
 Running the Bot
 ---------------
 
 1. run `npm install` command inside the root directory of the project
-2. edit the `userConf.json` file and enter your telegram API Token and required other details about your existing Bot
-3. run `npm start` command
-(run `DEBUG=* npm start` for a debug log on standard output)
+2. edit the `userConf.json` file and enter required details about your existing Bot (see next section in this README)
+3. you have two options to run your bot: **polling** for requests or through **webhooks**
+
+** Running in POLLING (PULL) Mode **
+
+The Bot runs a polling to ask for incoming requests (recommended only if you don't have a public IP).
+
+Run the command: `TOKEN=<Telegram API Token> npm start`, where `<Telegram API Token>` is the required API token from Telegram. 
+
+(run `DEBUG=* TOKEN=<Telegram API Token> npm start` for a debug log on standard output)
+
+**OR**
+
+** Running in WEBHOOK (PUSH) Mode **
+
+The Bot registers itself to Telegram to be notified only when there are incoming requests for it. It works under HTTPS and it runs a simple web server.
+
+Steps:
+
+**a)** generate a private/public key couple and a self-signed certificate:
+On OSX or Linux run: `openssl req -newkey rsa:2048 -sha256 -nodes -keyout privatekey.key -x509 -days 365 -out certificate.pem -subj "/C=IT/ST=Sardinia/L=Cagliari/O=WhatAboutBot/CN=<<<<FILL HERE YOUR BOT IP ADDRESS or DOMAIN>>>"`
+
+(change the `subj` info as you prefer but remenber to use the real IP address or domain of the server you are going to run the Bot)
+
+**b)** copy the generated `privatekey.key` and `certificate.pem` files into the `certs` directory (**NB**: don't rename them).
+
+**c)** run the command: `TOKEN=<Telegram API Token> MODE=push npm start`. It also accepts a `PORT=n` env variable, default is `PORT=8443` (see [Telegram API docs](https://core.telegram.org/bots/api#setwebhook) for available ports)
+
+(run `DEBUG=* TOKEN=<Telegram API Token> MODE=push npm start` for a debug log on standard output)
+
 
 
 Directories Structure & Main Files
@@ -41,11 +68,13 @@ Directories Structure & Main Files
 
 ---- `bot`: contains the Bot core libs. Current version of the Bot runs in pull mode: it polls the Telegram Bot APIs to get new messages. Future versions will work also in push mode, to receive updates from Telegram when needed
 
+---- `certs`: to run the Bot in webhook (push) mode ONLY, this folder must contain your generated private key and certificate
+
 `apps.json`: lists all the available and configured apps. JSON keys are the commands supported by the Bot, where related JSON values are the name of the correspondent app file (contained in `apps` folder)
 
 `generalConf.json`: Telegram BOT API general configuration (in most cases is intended to be left unedited)
 
-`userConf.json`: Specific Telegram BOT configuration. Fill in your Telegram API Token as well as the bot name and username. `updatesInterval` is the polling interval to check for updates from Telegram Bot API; `allowedUsers` is an array of Telegram username strings allowed to use this Bot. Enter `false` to let everybody use your Bot. 
+`userConf.json`: Specific Telegram BOT configuration. Fill in the Bot name and username. `updatesInterval` is the polling interval to check for updates from Telegram Bot API; `allowedUsers` is an array of Telegram username strings allowed to use this Bot. Enter `false` to let everybody use your Bot. 
 
 `index.js`: the main file to run
 

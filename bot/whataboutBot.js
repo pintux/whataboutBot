@@ -14,11 +14,11 @@ function Bot(config){
     this.offset = 0;
     this.username = config.username;
     this.name = config.botName;
-    this.token = config.token;
+    this.token = process.env.TOKEN;
     this.allowedUsers = config.allowedUsers || false;
 }
 
-// Polling!
+// Polling (MODE=pull)
 Bot.prototype.getUpdates = function(cb){
 
   var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.getUpdates + '?offset='+this.offset;
@@ -186,6 +186,65 @@ Bot.prototype.processMessage = function(update, cb){
   }
 };
 
+//Sets a webhook for this bot (MODE=push)
+Bot.prototype.setWebhook = function(url, cb){
+    var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.setWebhook;
+    debug('Registering a webook to URL:', url);
+    var formData = new FormData();
+    var certFilename = process.env.PWD + '/certs/certificate.pem';
+    
+    fs.exists(certFilename, (exists) => {
+       debug('Certificate at:', certFilename, 'exists: ', exists);
+       if(exists){
+                
+                formData.append('certificate', fs.createReadStream(certFilename));
+                formData.append('url', url);    
+                fs.stat(certFilename, function(err, stats){
+                    //sets content-length header, without it form-data doesn't work
+                    formData.getHeaders({"Content-Length": stats.size});
+                    debug('Sending webhook registration...');
+                    formData.submit(reqURL, function(err, response) {  
+                        debug("Webhook registration response status:", response.statusCode); 
+                              
+                        if(!err && response.statusCode === 200) {
+                            var body=[];
+                            response.on('data', function(chunk) {
+                                    body.push(chunk);
+                                }).on('end', function() {
+                                    body = Buffer.concat(body).toString();
+                                    debug("Webhook registration response BODY:", body);
+                                    cb(null, response);
+                             });
+                            
+                        } else {
+                            cb(err, null);
+                        }       
+                    });
+                });
+       } else {
+            debug('ERROR, certificate not specified');
+            cb('Certificate not provided', null);
+       }
+        
+    });   
+    
+};
+
+//Unsets webhooks for this bot sending an empty URL
+Bot.prototype.unsetWebhook = function(cb){
+    var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.setWebhook + '?url=';
+    debug('Unsetting any webook, calling GET ',reqURL);
+    http.get(reqURL, function(err, response, body){
+        if(!err && response.statusCode === 200) {
+            cb(null, response);
+        } else {
+            debug('Error in unsetting webhooks:', err);
+            cb(err, null);
+        }  
+        
+    });  
+    
+};
 
 
 module.exports = Bot;
