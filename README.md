@@ -30,7 +30,7 @@ Running the Bot
 2. edit the `userConf.json` file and enter required details about your existing Bot (see next section in this README)
 3. you have two options to run your bot: **polling** for requests or through **webhooks**
 
-** Running in POLLING (PULL) Mode **
+**Running in POLLING (PULL) Mode**
 
 The Bot runs a polling to ask for incoming requests (recommended only if you don't have a public IP).
 
@@ -40,7 +40,7 @@ Run the command: `TOKEN=<Telegram API Token> npm start`, where `<Telegram API To
 
 **OR**
 
-** Running in WEBHOOK (PUSH) Mode **
+**Running in WEBHOOK (PUSH) Mode**
 
 The Bot registers itself to Telegram to be notified only when there are incoming requests for it. It works under HTTPS and it runs a simple web server.
 
