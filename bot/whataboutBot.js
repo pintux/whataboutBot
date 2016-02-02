@@ -22,29 +22,28 @@ function Bot(config){
 Bot.prototype.getUpdates = function(cb){
 
   var reqURL = generalConf.APIBASEURL + this.token + '/'+generalConf.getUpdates + '?offset='+this.offset;
-  //debug('getUpdates -> ',reqURL);
   var self = this;
   http.get(reqURL, function(err, response, body){
     debug('Response: ' + util.inspect(body));
     if (!err && response.statusCode === 200) {
         var updates = JSON.parse(body);
-        
+
         try {
           if(updates.ok && updates.result.length > 0){
             self.offset = updates.result[updates.result.length-1].update_id+1;
           }
-          
+
           //if allowedUsers == false, then ALL users can chat with the bot
           if(!self.allowedUsers){
             return cb(null, updates.result);
           }
           else{
             //filter messages by allowedUsers
-            return cb(null, updates.result.filter(function(value){	
+            return cb(null, updates.result.filter(function(value){
 	                          return (self.allowedUsers.indexOf(value.message.from.username) !== -1);
                         }));
           }
-          
+
         } catch (e) {
           debug(e);
           return cb(e, null);
@@ -146,7 +145,7 @@ Bot.prototype.processMessage = function(update, cb){
                 require('../apps/'+apps[app].file)(param, update.message.chat, function(err, result){
                   if(!err){
                     debug('Sending a message of type: ', result);
-                  
+
                     //text
                     if ('text' in result){
                       self.sendTextMessage(update.message.chat.id, result.text, function(err, message){
@@ -192,20 +191,20 @@ Bot.prototype.setWebhook = function(url, cb){
     debug('Registering a webook to URL:', url);
     var formData = new FormData();
     var certFilename = process.env.PWD + '/certs/certificate.pem';
-    
+
     fs.exists(certFilename, (exists) => {
        debug('Certificate at:', certFilename, 'exists: ', exists);
        if(exists){
-                
+
                 formData.append('certificate', fs.createReadStream(certFilename));
-                formData.append('url', url);    
+                formData.append('url', url);
                 fs.stat(certFilename, function(err, stats){
                     //sets content-length header, without it form-data doesn't work
                     formData.getHeaders({"Content-Length": stats.size});
                     debug('Sending webhook registration...');
-                    formData.submit(reqURL, function(err, response) {  
-                        debug("Webhook registration response status:", response.statusCode); 
-                              
+                    formData.submit(reqURL, function(err, response) {
+                        debug("Webhook registration response status:", response.statusCode);
+
                         if(!err && response.statusCode === 200) {
                             var body=[];
                             response.on('data', function(chunk) {
@@ -215,19 +214,19 @@ Bot.prototype.setWebhook = function(url, cb){
                                     debug("Webhook registration response BODY:", body);
                                     cb(null, response);
                              });
-                            
+
                         } else {
                             cb(err, null);
-                        }       
+                        }
                     });
                 });
        } else {
             debug('ERROR, certificate not specified');
             cb('Certificate not provided', null);
        }
-        
-    });   
-    
+
+    });
+
 };
 
 //Unsets webhooks for this bot sending an empty URL
@@ -240,10 +239,10 @@ Bot.prototype.unsetWebhook = function(cb){
         } else {
             debug('Error in unsetting webhooks:', err);
             cb(err, null);
-        }  
-        
-    });  
-    
+        }
+
+    });
+
 };
 
 
